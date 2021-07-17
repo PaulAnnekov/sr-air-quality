@@ -1,0 +1,84 @@
+esphome:
+  name: sr_air_quality
+  platform: ESP8266
+  board: d1_mini
+
+substitutions:
+  hostname: 'SR Air Quality'
+  mhz19id: 'mhz19_sensor'
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: true
+  ap:
+    ssid: $hostname Hotspot
+    password: !secret hotspot_password
+
+ota:
+  password: !secret ota_password
+
+captive_portal:
+
+web_server:
+  port: 47385
+
+logger:
+  level: DEBUG
+
+api:
+  services:
+    - service: calibrate_zero
+      then:
+        - mhz19.calibrate_zero: $mhz19id
+
+uart:
+  - rx_pin: D7
+    tx_pin: D6
+    baud_rate: 9600
+    id: uart_mhz19
+  - rx_pin: D5
+    baud_rate: 9600
+    id: uart_pmsa003
+
+sensor:
+  - platform: mhz19
+    id: $mhz19id
+    co2:
+      name: $hostname CO2
+    temperature:
+      name: $hostname Temperature
+    update_interval: 60s
+    automatic_baseline_calibration: false
+    uart_id: uart_mhz19
+  - platform: pmsx003
+    type: PMSX003
+    uart_id: uart_pmsa003
+    pm_1_0:
+      name: $hostname PM 1.0
+      filters:
+        - throttle: 1min
+    pm_2_5:
+      name: $hostname PM 2.5
+      filters:
+        - throttle: 1min
+    pm_10_0:
+      name: $hostname PM 10.0
+      filters:
+        - throttle: 1min
+
+switch:
+  - platform: template
+    name: $hostname MH-Z19 ABC
+    optimistic: true
+    on_turn_on:
+      - mhz19.abc_enable: $mhz19id
+    on_turn_off:
+      - mhz19.abc_disable: $mhz19id
+    restore_state: true
+  - platform: restart
+    name: $hostname Restart
+
+binary_sensor:
+  - platform: status
+    name: $hostname Status
