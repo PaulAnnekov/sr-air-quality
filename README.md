@@ -16,6 +16,10 @@ Instructions on how to compile `base.yaml` into firmware: https://esphome.io/gui
 - PM 10.0 in µg/m³	
 - Temperature. I'd not trust it too much, it's from internal temperature sensor of MH-Z19B
 
+## Case for 3D printer
+
+https://www.thingiverse.com/thing:4918099
+
 ## Notes
 
 All PM measurements are throttled to 1 minute to don't overload network/Home Assistant with a lot of useless data. By default PMSA003 sensor sends measurements each 200ms – 2 seconds.
