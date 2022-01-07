@@ -24,7 +24,7 @@ web_server:
   port: 47385
 
 logger:
-  level: DEBUG
+  baud_rate: 0
 
 api:
   services:
@@ -37,7 +37,7 @@ uart:
     tx_pin: D6
     baud_rate: 9600
     id: uart_mhz19
-  - rx_pin: D5
+  - rx_pin: GPIO3
     baud_rate: 9600
     id: uart_pmsa003
 
