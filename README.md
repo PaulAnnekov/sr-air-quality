@@ -22,7 +22,8 @@ https://www.thingiverse.com/thing:4918099
 
 ## Notes
 
-All PM measurements are throttled to 1 minute to don't overload network/Home Assistant with a lot of useless data. By default PMSA003 sensor sends measurements each 200ms – 2 seconds.
+- All PM measurements are throttled to 1 minute to don't overload network/Home Assistant with a lot of useless data. By default PMSA003 sensor sends measurements each 200ms – 2 seconds.
+- PMSA003 MUST be connected via hardware UART for stability reasons. Check https://github.com/esphome/issues/issues/2374
 
 ## Price
 
